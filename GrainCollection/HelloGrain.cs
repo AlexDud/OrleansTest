@@ -3,11 +3,15 @@
     using GrainInterfaces;
     using System.Threading.Tasks;
 
-    class HelloGrain : Orleans.Grain, IHello
+    public class HelloGrain : Orleans.Grain, IHello
     {
-        public Task<string> SayHello(string msg)
+        private string text = "Hello World!";
+
+        public Task<string> SayHello(string greeting)
         {
-            return Task.FromResult($"You said {msg}, I say: Hello!");
+            var oldText = text;
+            text = greeting;
+            return Task.FromResult(oldText);
         }
     }
 }
