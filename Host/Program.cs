@@ -21,6 +21,8 @@
             Console.WriteLine(hello.SayHello("Second").Result);
             Console.WriteLine(hello.SayHello("Third").Result);
             Console.WriteLine(hello.SayHello("Fourth").Result);
+
+            Console.ReadKey();
         }
     }
 }
