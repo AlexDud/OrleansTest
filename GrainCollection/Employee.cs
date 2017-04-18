@@ -8,6 +8,7 @@
     public class Employee : Grain, IEmployee
     {
         private int _level;
+        private string _name;
         private IManager _manager;
 
         public Task<int> GetLevel()
@@ -21,10 +22,21 @@
             return TaskDone.Done;
         }
 
-        public Task Greeting(IEmployee from, string message)
+        public Task<string> GetName()
         {
-            Console.WriteLine("{0} said: {1}", from.GetPrimaryKey(), message);
+            return Task.FromResult(_name);
+        }
+
+        public Task SetName(string newName)
+        {
+            _name = newName;
             return TaskDone.Done;
+        }
+
+        public async Task Greeting(IEmployee from, string message)
+        {
+            var name = await from.GetName();
+            Console.WriteLine($"Employee {name} with Id {from.GetPrimaryKey()} said: {message}");
         }
 
         public Task<IManager> GetManager()

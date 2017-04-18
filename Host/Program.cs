@@ -27,6 +27,9 @@
             var m0e = m0.AsEmployee().Result;
             var m1e = m1.AsEmployee().Result;
 
+            m0e.SetName("Sasha").Wait();
+            m1e.SetName("Vova").Wait();
+
             m0e.Promote(10);
             m1e.Promote(11);
 
