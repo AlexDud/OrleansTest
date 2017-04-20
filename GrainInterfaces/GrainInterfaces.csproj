@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GreetingData.cs" />
     <Compile Include="IEmployee.cs" />
     <Compile Include="IHello.cs" />
     <Compile Include="IManager.cs" />

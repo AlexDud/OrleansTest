@@ -25,7 +25,11 @@
         {
             _reports.Add(employee);
             await employee.SetManager(this);
-            await employee.Greeting(_me, "Welcome to my team!");
+            await employee.Greeting(new GreetingData
+            {
+                From = this.GetPrimaryKey(),
+                Message = "Welcome to my team!"
+            });
         }
 
         public Task<IEmployee> AsEmployee()

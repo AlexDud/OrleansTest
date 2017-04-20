@@ -4,7 +4,9 @@
     using System.Threading.Tasks;
     using GrainInterfaces;
     using Orleans;
+    using Orleans.Concurrency;
 
+    [Reentrant]
     public class Employee : Grain, IEmployee
     {
         private int _level;
@@ -33,10 +35,21 @@
             return TaskDone.Done;
         }
 
-        public async Task Greeting(IEmployee from, string message)
+        public async Task Greeting(GreetingData data)
         {
-            var name = await from.GetName();
-            Console.WriteLine($"Employee {name} with Id {from.GetPrimaryKey()} said: {message}");
+            Console.WriteLine("{0} said: {1}", data.From, data.Message);
+
+            // stop this from repeating endlessly
+            if (data.Count >= 3) return;
+
+            // send a message back to the sender
+            var fromGrain = GrainFactory.GetGrain<IEmployee>(data.From);
+            await fromGrain.Greeting(new GreetingData
+            {
+                From = this.GetPrimaryKey(),
+                Message = "Thanks!",
+                Count = data.Count + 1
+            });
         }
 
         public Task<IManager> GetManager()
